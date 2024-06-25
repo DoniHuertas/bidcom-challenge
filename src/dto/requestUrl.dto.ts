@@ -1,10 +1,20 @@
-interface RequestUrlBody {
+import { IsNotEmpty, IsNumber } from "class-validator";
+
+export class RequestUrlBody {
+  @IsNotEmpty()
   url: string;
+
+  @IsNotEmpty()
+  password: string;
+
+  expiresIn?: number;
 }
 
-interface MaskedUrlData {
+export class MaskedUrlData {
   target: string;
   link: string;
   valid: boolean;
-  expiresIn?: any;
+  redirections: number;
+  password: string;
+  expiresAt?: Date;
 }

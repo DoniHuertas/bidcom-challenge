@@ -6,8 +6,12 @@ import {
   Param,
   Redirect,
   Put,
+  UsePipes,
+  ValidationPipe,
+  Query,
 } from "@nestjs/common";
 import { AppService } from "./app.service";
+import { MaskedUrlData, RequestUrlBody } from "./dto/requestUrl.dto";
 
 @Controller()
 export class AppController {
@@ -20,17 +24,20 @@ export class AppController {
 
   @Get("/l/:maskedUrl")
   @Redirect()
-  redirect(@Param("maskedUrl") maskedUrl: string) {
-    const originalUrl = this.appService.redirectFromMasked(maskedUrl);
-    return originalUrl;
+  redirect(
+    @Param("maskedUrl") maskedUrl: string,
+    @Query("password") password: string
+  ) {
+    return this.appService.redirectFromMasked(maskedUrl, password);
   }
 
-  @Get("/:id/stats")
-  getTest(@Param("id") id: string) {
-    return this.appService.getTest(id);
+  @Get("/:maskedUrl/stats")
+  getStats(@Param("maskedUrl") maskedUrl: string) {
+    return this.appService.getStats(maskedUrl);
   }
 
   @Post("/create")
+  @UsePipes(new ValidationPipe())
   maskUrl(@Body() requestBody: RequestUrlBody): MaskedUrlData {
     return this.appService.maskUrl(requestBody);
   }
