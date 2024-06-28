@@ -28,7 +28,13 @@ $ npm run start:dev
 ### Post("/create")
 Se debe enviar en el body: url, contraseña y opcionalmente un numero que representa la cantidad de minutos que estará vigente el link
 retorna un JSON con la url enmascarada y la fecha de expiracion de la url.
-
+```json
+{
+  "url" : "https://github.com",
+  "password" : "abc123",
+  "expiresIn" : 10
+}
+```
 ### Get("/")
 Trae todos los links guardados en la base de datos.
 
