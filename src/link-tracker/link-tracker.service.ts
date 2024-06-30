@@ -31,7 +31,7 @@ export class LinkTrackerService {
       link: createLink(maskedUrl),
       valid: true,
       redirections: 0,
-      password: hashPassword(requestUrlBody.password),
+      password: hashPassword(requestUrlBody.password.toLowerCase()),
     };
 
     if (requestUrlBody.expiresIn) {
@@ -60,7 +60,7 @@ export class LinkTrackerService {
         throw new NotFoundException("Link inexistente o inválido");
       }
 
-      if (!verifyHashedPassword(password, link.password)) {
+      if (!verifyHashedPassword(password.toLowerCase(), link.password)) {
         throw new HttpException(
           "Contraseña Incorrecta",
           HttpStatus.UNAUTHORIZED
